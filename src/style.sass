@@ -1,0 +1,16 @@
+*
+  cursor: none
+html, body
+  overflow: hidden
+  height: 100%
+  margin: 0
+
+#ipad-cursor
+  position: absolute
+  top: 0
+  height: 0
+  opacity: 0
+  transition: opacity 100ms
+  pointer-events: none
+  &.visible
+    opacity: 1
