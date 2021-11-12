@@ -8,6 +8,7 @@ import { debug, DOMElement } from './helpers.js'
 class Cursor {
   constructor() {
     this.elId = 'ipad-cursor'
+    this.type = 'default'
     this.evListeners = []
     this.size = 20
     this.width = 20
@@ -48,6 +49,8 @@ class Cursor {
     this.pos.x = e.clientX;
     this.pos.y = e.clientY;
     this.mouseMoveCount++
+    const element = document.elementFromPoint(this.pos.x, this.pos.y);
+    this.type = window.getDefaultComputedStyle(element).cursor
   }
   hide() {
     this.mouseMoveCount = 0
@@ -55,11 +58,9 @@ class Cursor {
   animate() {
     const newValues = {
       isVisible: this.isVisible,
-    }
-    // const element = document.elementFromPoint(this.pos.x, this.pos.y);
-    if (this.cache.isVisible != newValues.isVisible) {
-      this.el.classList.toggle('visible', newValues.isVisible)
-    }
+    };
+
+    if (this.cache.isVisible != newValues.isVisible) this.el.classList.toggle('visible', newValues.isVisible)
 
     this.el.style.left = this.cx + 'px'
     this.el.style.top = this.cy + 'px'
@@ -74,6 +75,7 @@ class Cursor {
   updateDebug() {
     const debugData = {
       visible: this.isVisible,
+      type: this.type
     }
 
     const skipFrames = 6;
